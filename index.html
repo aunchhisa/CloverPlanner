@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Clover Study Planner</title>
+<link href="https://fonts.googleapis.com/css2?family=Mali:wght@400;600;700&family=Itim&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app" id="app">
+  <aside class="sidebar" aria-label="เมนู">
+    <button class="toggle" id="toggle" aria-label="ย่อ/ขยายเมนู" title="ย่อ/ขยายเมนู">◀</button>
+    <div class="brand"><span class="logo">🍀</span><span class="lb">Clover Planner</span></div>
+    <nav class="nav" id="nav">
+      <button data-page="home"><span class="ic">🏡</span><span class="lb">หน้าหลัก</span></button>
+      <button data-page="tasks"><span class="ic">📝</span><span class="lb">งานของฉัน</span></button>
+      <button data-page="timer"><span class="ic">⏰</span><span class="lb">จับเวลาอ่านหนังสือ</span></button>
+      <button data-page="garden"><span class="ic">🌳</span><span class="lb">สวนของฉัน</span></button>
+      <button data-page="table"><span class="ic">📅</span><span class="lb">ตารางเรียน</span></button>
+    </nav>
+    <div class="side-foot">♪ ✿ ★</div>
+  </aside>
+
+  <main>
+    <!-- HOME -->
+    <section id="home" class="page">
+      <h1>สวัสดีจ้า 🌸</h1>
+      <p class="sub" id="today"></p>
+      <div class="grid">
+        <div class="card stat"><b id="sPending">0</b><span>งานที่ค้างอยู่</span></div>
+        <div class="card stat warn g"><b id="sOver">0</b><span>เลยกำหนดแล้ว</span></div>
+        <div class="card stat"><b id="sSoon">0</b><span>ส่งภายใน 3 วัน</span></div>
+        <div class="card stat g"><b id="sStudy">0</b><span>นาทีที่อ่านวันนี้</span></div>
+      </div>
+      <div class="card g">
+        <h2>⭐ งานที่ต้องทำเร็วๆ นี้</h2>
+        <ul class="list" id="homeList"></ul>
+      </div>
+    </section>
+
+    <!-- TASKS -->
+    <section id="tasks" class="page hide">
+      <h1>งานของฉัน 📝</h1>
+      <p class="sub">จดงาน วันส่ง แล้วติ๊กเมื่อทำเสร็จ</p>
+      <form class="card" id="taskForm" autocomplete="off">
+        <div class="row">
+          <label style="flex:2 1 220px">ชื่องาน<input id="fTitle" required placeholder="เช่น รายงานวิทยาศาสตร์"></label>
+          <label>วิชา<input id="fSubj" placeholder="เช่น ฟิสิกส์"></label>
+          <label>กำหนดส่ง<input id="fDue" type="date" required></label>
+          <button class="btn" type="submit">เพิ่มงาน</button>
+        </div>
+      </form>
+      <div class="chips" id="chips">
+        <button class="chip" data-f="pending" aria-pressed="true">ยังไม่เสร็จ</button>
+        <button class="chip" data-f="all" aria-pressed="false">ทั้งหมด</button>
+        <button class="chip" data-f="done" aria-pressed="false">เสร็จแล้ว</button>
+      </div>
+      <ul class="list" id="taskList"></ul>
+    </section>
+
+    <!-- TIMER -->
+    <section id="timer" class="page hide">
+      <h1>จับเวลาอ่านหนังสือ ⏰</h1>
+      <p class="sub">โฟกัสเป็นรอบๆ แล้วพักสั้นๆ</p>
+      <div class="card">
+        <div class="timer-wrap">
+          <div class="chips" id="modes" style="justify-content:center;margin:0">
+            <button class="chip" data-m="25" aria-pressed="true">อ่าน 25</button>
+            <button class="chip" data-m="45" aria-pressed="false">อ่าน 45</button>
+            <button class="chip" data-m="5" aria-pressed="false">พัก 5</button>
+            <button class="chip" data-m="15" aria-pressed="false">พัก 15</button>
+          </div>
+          <div class="ring" id="ring"><div><div><div class="time" id="time">25:00</div><div class="mode" id="modeLb">ช่วงอ่านหนังสือ</div></div></div></div>
+          <div class="row tl"><label>กำหนดเอง (นาที)<input id="custom" type="number" min="1" max="180" placeholder="เช่น 30"></label>
+            <label>กำลังอ่านวิชา<input id="tSubj" placeholder="ไม่ใส่ก็ได้"></label></div>
+          <div class="ctrl">
+            <button class="btn" id="start">เริ่ม</button>
+            <button class="btn g" id="pause">หยุดชั่วคราว</button>
+            <button class="btn o" id="reset">รีเซ็ต</button>
+          </div>
+        </div>
+      </div>
+      <div class="card g">
+        <h2>🌱 เวลาที่อ่านวันนี้: <span id="studyToday">0</span> นาที</h2>
+        <ul class="list" id="logList"></ul>
+      </div>
+    </section>
+
+      <!-- GARDEN -->
+    <section id="garden" class="page hide">
+      <h1>สวนของฉัน 🌳</h1>
+      <p class="sub">อ่านหนังสือครบเวลา 1 รอบ = ได้ปลูกต้นไม้ 1 ต้น</p>
+      <div class="grid">
+        <div class="card stat g"><b id="gTotal">0</b><span>ต้นไม้ทั้งหมด</span></div>
+        <div class="card stat"><b id="gToday">0</b><span>ปลูกวันนี้</span></div>
+        <div class="card stat g"><b id="gMin">0</b><span>นาทีที่ใช้ปลูกทั้งหมด</span></div>
+      </div>
+      <div class="card g">
+        <div class="lawn" id="lawn"></div>
+      </div>
+    </section>
+ 
+
+    <!-- TIMETABLE -->
+    <section id="table" class="page hide">
+      <h1>ตารางเรียน 📅</h1>
+      <p class="sub">อัปโหลดรูปตารางเรียนไว้ดูได้ทุกเมื่อ</p>
+      <div class="card">
+        <img id="ttImg" class="tt-img hide" alt="ตารางเรียนของฉัน">
+        <label class="drop" id="drop"><input type="file" id="ttFile" accept="image/*">
+          <div style="font-size:2rem">🌼</div><div id="dropLb">แตะเพื่อเลือกรูปตารางเรียน</div></label>
+        <div class="ctrl hide" id="ttBtns" style="margin-top:14px"><button class="btn o" id="ttDel">ลบรูปตารางเรียน</button></div>
+      </div>
+    </section>
+  </main>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
